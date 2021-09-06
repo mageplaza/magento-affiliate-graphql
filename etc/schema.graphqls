@@ -1,0 +1,7 @@
+type Query {
+    MpAffiliateConfigs: Config @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Config")
+}
+
+type Config {
+    email_notification: Int @doc(description: "Affiliate Subscriptions")
+}
