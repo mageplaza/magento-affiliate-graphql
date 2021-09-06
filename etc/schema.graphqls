@@ -1,5 +1,5 @@
 type Query {
-    MpAffiliateConfigs: Config @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Config")
+    MpAffiliateConfigs: Config @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Config") @doc(description: "The MpAffiliateConfigs query returns affiliate setting") @cache(cacheable: false)
 }
 
 type Config {
