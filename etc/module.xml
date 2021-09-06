@@ -26,7 +26,6 @@
             <module name="Mageplaza_Core"/>
             <module name="Mageplaza_Affiliate"/>
             <module name="Mageplaza_AffiliatePro"/>
-            <module name="Mageplaza_AffiliateUltimate"/>
         </sequence>
     </module>
 </config>
