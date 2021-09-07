@@ -22,12 +22,10 @@ declare(strict_types=1);
 
 namespace Mageplaza\AffiliateGraphQl\Model\Resolver;
 
-use Magento\CustomerGraphQl\Model\Customer\GetCustomer;
 use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
-use Magento\GraphQl\Model\Query\ContextInterface;
 use Mageplaza\Affiliate\Helper\Data;
 
 /**
@@ -37,25 +35,17 @@ use Mageplaza\Affiliate\Helper\Data;
 class SignupInformation implements ResolverInterface
 {
     /**
-     * @var GetCustomer
-     */
-    private $getCustomer;
-
-    /**
      * @var Data
      */
     private $data;
 
     /**
-     * @param GetCustomer $getCustomer
      * @param Data $data
      */
     public function __construct(
-        GetCustomer $getCustomer,
         Data        $data
     )
     {
-        $this->getCustomer = $getCustomer;
         $this->data = $data;
     }
 
