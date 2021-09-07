@@ -1,6 +1,7 @@
 type Query {
     MpAffiliateConfigs: Config @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Config") @doc(description: "The MpAffiliateConfigs query returns affiliate setting") @cache(cacheable: false)
     MpAffiliateSignupInformation: SignupInformation @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\SignupInformation") @doc(description: "The MpAffiliateSignupInformation query returns affiliate sign up information") @cache(cacheable: false)
+    MpAffiliateCampaigns: [Campaign] @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Campaign") @doc(description: "The MpAffiliateCampaigns query returns affiliate campaign") @cache(cacheable: false)
 }
 
 type Config {
@@ -12,4 +13,33 @@ type SignupInformation {
     cms_block: String @doc(description: "Term & Condition Content")
     is_checked: Int @doc(description: "Is checked by default")
     checkbox_text: String @doc(description: "The checkbox text")
+}
+
+type Campaign {
+    campaign_id: Int @doc(description: "Campaign ID")
+    name: String @doc(description: "Campaign Name")
+    description: String @doc(description: "Campaign Description")
+    status: Int @doc(description: "Campaign Status")
+    website_ids: String @doc(description: "Campaign Website Ids")
+    affiliate_group_ids: String @doc(description: "Affiliate Group Ids")
+    from_date: String @doc(description: "From Date")
+    to_date: String @doc(description: "To Date")
+    display: Int @doc(description: "Display")
+    sort_order: Int @doc(description: "Sort Order")
+    conditions_serialized: String @doc(description: "Conditions")
+    actions_serialized: String @doc(description: "Actions")
+    commission: String @doc(description: "Commission")
+    discount_action: String @doc(description: "Discount Action")
+    discount_amount: Float @doc(description: "Discount Amount")
+    discount_qty: Int @doc(description: "Discount Qty")
+    discount_step: Int @doc(description: "Discount Step")
+    discount_description: String @doc(description: "Discount Description")
+    free_shipping: String @doc(description: "Free Shipping")
+    apply_to_shipping: Int @doc(description: "Apply To Shipping")
+    created_at: String @doc(description: "Created At")
+    updated_at: String @doc(description: "Updated At")
+    apply_discount_on_tax: Int @doc(description: "Apply Discount On Tax")
+    code_length: Int @doc(description: "Code Length")
+    code_format: String @doc(description: "Code Format")
+    coupon_code: String @doc(description: "Coupon Code")
 }
