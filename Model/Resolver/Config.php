@@ -29,7 +29,6 @@ use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\GraphQl\Model\Query\ContextInterface;
 use Mageplaza\Affiliate\Helper\Data;
-use PHPUnit\Util\Exception;
 
 /**
  * Class Config
@@ -54,8 +53,7 @@ class Config implements ResolverInterface
     public function __construct(
         GetCustomer $getCustomer,
         Data        $data
-    )
-    {
+    ) {
         $this->getCustomer = $getCustomer;
         $this->data = $data;
     }
@@ -63,13 +61,7 @@ class Config implements ResolverInterface
     /**
      * @inheritdoc
      */
-    public function resolve(
-        Field       $field,
-                    $context,
-        ResolveInfo $info,
-        array       $value = null,
-        array       $args = null
-    )
+    public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
     {
         /** @var ContextInterface $context */
         if (false === $context->getExtensionAttributes()->getIsCustomer()) {

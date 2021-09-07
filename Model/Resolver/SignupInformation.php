@@ -43,22 +43,15 @@ class SignupInformation implements ResolverInterface
      * @param Data $data
      */
     public function __construct(
-        Data        $data
-    )
-    {
+        Data $data
+    ) {
         $this->data = $data;
     }
 
     /**
      * @inheritdoc
      */
-    public function resolve(
-        Field       $field,
-                    $context,
-        ResolveInfo $info,
-        array       $value = null,
-        array       $args = null
-    )
+    public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
     {
         if (!$this->data->isEnabled()) {
             throw new GraphQlAuthorizationException(__('The Affiliate is disabled.'));
