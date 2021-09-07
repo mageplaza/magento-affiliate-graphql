@@ -59,7 +59,6 @@ type AffiliateAction {
 
 input TransactionFilterInput {
     transaction_id: FilterTypeInput @doc(description: "Transaction Id")
-    customer_id: FilterTypeInput @doc(description: "Customer Id")
 }
 
 type AccountData {
@@ -83,7 +82,7 @@ type AccountData {
 
 type TransactionOutput {
     total_count: Int @doc(description: "The total number of results returned when a query is applied"),
-    items: [TransactionData] @doc(description: "Order attributes data is satisfied")
+    items: [TransactionData] @doc(description: "Transaction data is satisfied")
 }
 
 type TransactionData {
