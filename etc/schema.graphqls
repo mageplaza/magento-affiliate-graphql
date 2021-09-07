@@ -1,7 +1,15 @@
 type Query {
     MpAffiliateConfigs: Config @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Config") @doc(description: "The MpAffiliateConfigs query returns affiliate setting") @cache(cacheable: false)
+    MpAffiliateSignupInformation: SignupInformation @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\SignupInformation") @doc(description: "The MpAffiliateSignupInformation query returns affiliate sign up information") @cache(cacheable: false)
 }
 
 type Config {
     email_notification: Int @doc(description: "Affiliate Subscriptions")
+}
+
+type SignupInformation {
+    title: String @doc(description: "Term & Condition Title")
+    cms_block: String @doc(description: "Term & Condition Content")
+    is_checked: Int @doc(description: "Is checked by default")
+    checkbox_text: String @doc(description: "The checkbox text")
 }

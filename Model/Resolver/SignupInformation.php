@@ -29,13 +29,12 @@ use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\GraphQl\Model\Query\ContextInterface;
 use Mageplaza\Affiliate\Helper\Data;
-use PHPUnit\Util\Exception;
 
 /**
- * Class Config
+ * Class SignupInformation
  * @package Mageplaza\AffiliateGraphQl\Model\Resolver
  */
-class Config implements ResolverInterface
+class SignupInformation implements ResolverInterface
 {
     /**
      * @var GetCustomer
@@ -71,20 +70,15 @@ class Config implements ResolverInterface
         array       $args = null
     )
     {
-        /** @var ContextInterface $context */
-        if (false === $context->getExtensionAttributes()->getIsCustomer()) {
-            throw new GraphQlAuthorizationException(__('The current customer isn\'t authorized.'));
-        }
-
         if (!$this->data->isEnabled()) {
             throw new GraphQlAuthorizationException(__('The Affiliate is disabled.'));
         }
 
-        $customer = $this->getCustomer->execute($context);
-        $affiliate = $this->data->getAffiliateAccount($customer->getId(), 'customer_id');
-
         return [
-            'email_notification' => $affiliate->getEmailNotification()
+            'title' => $this->data->getTermsAndConditionsTitle(),
+            'cms_block' => $this->data->loadCmsBlock($this->data->getTermsAndConditionsHtml()),
+            'is_checked' => $this->data->isCheckedEmailNotification(),
+            'checkbox_text' => $this->data->getTermsAndConditionsCheckboxText()
         ];
     }
 }
