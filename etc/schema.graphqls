@@ -212,3 +212,12 @@ type ReferInfo {
     refer_code: String @doc(description: "Refer Code")
     refer_email: String @doc(description: "Refer Email")
 }
+
+type CartPrices {
+    segments: AffiliateSegments @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Cart") @doc(description: "Affiliate Segments")
+}
+
+type AffiliateSegments {
+    affiliate_discount: Float @doc(description: "Affiliate Discount")
+    affiliate_commission: String @doc(description: "Affiliate Commission")
+}
