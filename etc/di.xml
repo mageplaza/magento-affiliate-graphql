@@ -30,6 +30,9 @@
                 <item name="mp_affiliate_withdraw" xsi:type="object">
                     Mageplaza\AffiliateGraphQl\Model\Resolver\FilterArgument\Withdraw
                 </item>
+                <item name="mp_affiliate_banner" xsi:type="object">
+                    Mageplaza\AffiliateGraphQl\Model\Resolver\FilterArgument\Banner
+                </item>
             </argument>
         </arguments>
     </type>

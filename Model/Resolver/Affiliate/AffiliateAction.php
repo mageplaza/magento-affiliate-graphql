@@ -82,10 +82,6 @@ class AffiliateAction implements ResolverInterface
             throw new GraphQlAuthorizationException(__('The Affiliate is disabled.'));
         }
 
-        return [
-            'Account',
-            'Transaction',
-            'ReferInfo'
-        ];
+        return [];
     }
 }
