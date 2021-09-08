@@ -24,19 +24,19 @@ namespace Mageplaza\AffiliateGraphQl\Model\Resolver\Affiliate;
 
 use Magento\CustomerGraphQl\Model\Customer\GetCustomer;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\GraphQl\Model\Query\ContextInterface;
 use Mageplaza\Affiliate\Model\Api\AccountFactory as AccountAPIFactory;
+use Mageplaza\Affiliate\Model\Config\Source\Urlparam;
 use Mageplaza\Affiliate\Helper\Data;
 
 /**
- * Class AffiliateAction
+ * Class ReferInfo
  * @package Mageplaza\AffiliateGraphQl\Model\Resolver\Affiliate
  */
-class AffiliateAction implements ResolverInterface
+class ReferInfo implements ResolverInterface
 {
     /**
      * @var GetCustomer
@@ -74,18 +74,34 @@ class AffiliateAction implements ResolverInterface
     public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
     {
         /** @var ContextInterface $context */
-        if (false === $context->getExtensionAttributes()->getIsCustomer()) {
-            throw new GraphQlAuthorizationException(__('The current customer isn\'t authorized.'));
-        }
+        $context->getExtensionAttributes()->getIsCustomer();
+        $customer = $this->getCustomer->execute($context);
 
-        if (!$this->data->isEnabled()) {
-            throw new GraphQlAuthorizationException(__('The Affiliate is disabled.'));
+        $account = $this->accountAPIFactory->create()->load($customer->getId(), 'customer_id');
+
+        if (!$account->getId()) {
+            throw new NoSuchEntityException(__('Requested entity doesn\'t exist'));
         }
 
         return [
-            'Account',
-            'Transaction',
-            'ReferInfo'
+            'refer_url' => $this->getReferUrl($account),
+            'refer_code' => $account->getCode(),
+            'refer_email' => $customer->getEmail()
         ];
+    }
+
+    /**
+     * @param $account
+     * @return string
+     */
+    public function getReferUrl($account)
+    {
+        $urlParam = $this->data->getGeneralUrlParam();
+
+        if ($urlParam === Urlparam::PARAM_ID) {
+            return $this->data->getSharingUrl().$account->getId();
+        }
+
+        return $this->data->getSharingUrl().$account->getCode();
     }
 }

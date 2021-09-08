@@ -55,6 +55,7 @@ type AffiliateAction {
         pageSize: Int = 5
         currentPage: Int = 1
     ): TransactionOutput @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Affiliate\\Transaction") @doc(description: "The Transaction query returns affiliate transaction") @cache(cacheable: false)
+    ReferInfo: ReferInfo @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Affiliate\\ReferInfo") @doc(description: "The ReferInfo query returns affiliate refer information") @cache(cacheable: false)
 }
 
 input TransactionFilterInput {
@@ -104,4 +105,10 @@ type TransactionData {
     created_at: String @doc(description: "Create At")
     updated_at: String @doc(description: "Updated At")
     extra_content: String @doc(description: "Extra Content")
+}
+
+type ReferInfo {
+    refer_url: String @doc(description: "Refer Url")
+    refer_code: String @doc(description: "Refer Code")
+    refer_email: String @doc(description: "Refer Email")
 }
