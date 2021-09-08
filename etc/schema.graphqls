@@ -218,7 +218,7 @@ type CartPrices {
 }
 
 type CustomerOrder {
-    segments: AffiliateSegments @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Order") @doc(description: "Affiliate Segments")
+    segments: AffiliateOrderSegments @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Order") @doc(description: "Affiliate Segments")
 }
 
 type AffiliateQuoteSegments {
@@ -227,6 +227,23 @@ type AffiliateQuoteSegments {
     base_affiliate_discount_amount: Float @doc(description: "Base Affiliate Discount")
     affiliate_commission: String @doc(description: "Affiliate Commission")
     affiliate_shipping_commission: Float @doc(description: "Affiliate Shipping Commission")
+    affiliate_discount_shipping_amount: Float @doc(description: "Affiliate Discount Shipping Amount")
+    base_affiliate_discount_shipping_amount: Float @doc(description: "Base Affiliate Discount Shipping Amount")
+}
+
+type AffiliateOrderSegments {
+    affiliate_key: String @doc(description: "Affiliate Key")
+    affiliate_commission: String @doc(description: "Affiliate Commission")
+    affiliate_discount_amount: Float @doc(description: "Affiliate Discount")
+    base_affiliate_discount_amount: Float @doc(description: "Base Affiliate Discount")
+    affiliate_shipping_commission: Float @doc(description: "Affiliate Shipping Commission")
+    affiliate_earn_commission_invoice_after: String @doc(description: "Affiliate Earn Commission Invoice After")
+    affiliate_discount_invoiced: Float @doc(description: "Affiliate Discount Invoiced")
+    base_affiliate_discount_invoiced: Float @doc(description: "Base Affiliate Discount Invoiced")
+    affiliate_discount_refunded: Float @doc(description: "Affiliate Discount Refunded")
+    base_affiliate_discount_refunded: Float @doc(description: "Base Affiliate Discount Refunded")
+    affiliate_commission_invoiced: Float @doc(description: "Affiliate Commission Invoiced")
+    affiliate_commission_refunded: Float @doc(description: "Affiliate Commission Refunded")
     affiliate_discount_shipping_amount: Float @doc(description: "Affiliate Discount Shipping Amount")
     base_affiliate_discount_shipping_amount: Float @doc(description: "Base Affiliate Discount Shipping Amount")
 }
