@@ -27,6 +27,9 @@
                 <item name="mp_affiliate_transaction" xsi:type="object">
                     Mageplaza\AffiliateGraphQl\Model\Resolver\FilterArgument\Transaction
                 </item>
+                <item name="mp_affiliate_withdraw" xsi:type="object">
+                    Mageplaza\AffiliateGraphQl\Model\Resolver\FilterArgument\Withdraw
+                </item>
             </argument>
         </arguments>
     </type>
