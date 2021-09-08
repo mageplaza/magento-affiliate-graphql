@@ -80,8 +80,13 @@ class Cart implements ResolverInterface
         $quote = $this->quote->load($value['model']->getId());
 
         return [
-            'affiliate_discount' => $quote->getBaseAffiliateDiscountAmount(),
-            'affiliate_commission' => $quote->getAffiliateCommission()
+            'affiliate_key' => $quote->getAffiliateKey(),
+            'affiliate_discount' => $quote->getAffiliateDiscountAmount(),
+            'base_affiliate_discount' => $quote->getBaseAffiliateDiscountAmount(),
+            'affiliate_commission' => $quote->getAffiliateCommission(),
+            'affiliate_shipping_commission' => $quote->getAffiliateShippingCommission(),
+            'affiliate_discount_shipping_amount' => $quote->getAffiliateDiscountShippingAmount(),
+            'base_affiliate_discount_shipping_amount' => $quote->getBaseAffiliateDiscountShippingAmount(),
         ];
     }
 }

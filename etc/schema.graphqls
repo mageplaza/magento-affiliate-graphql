@@ -214,10 +214,19 @@ type ReferInfo {
 }
 
 type CartPrices {
-    segments: AffiliateSegments @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Cart") @doc(description: "Affiliate Segments")
+    segments: AffiliateQuoteSegments @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Cart") @doc(description: "Affiliate Segments")
 }
 
-type AffiliateSegments {
-    affiliate_discount: Float @doc(description: "Affiliate Discount")
+type CustomerOrder {
+    segments: AffiliateSegments @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Order") @doc(description: "Affiliate Segments")
+}
+
+type AffiliateQuoteSegments {
+    affiliate_key: String @doc(description: "Affiliate Key")
+    affiliate_discount_amount: Float @doc(description: "Affiliate Discount")
+    base_affiliate_discount_amount: Float @doc(description: "Base Affiliate Discount")
     affiliate_commission: String @doc(description: "Affiliate Commission")
+    affiliate_shipping_commission: Float @doc(description: "Affiliate Shipping Commission")
+    affiliate_discount_shipping_amount: Float @doc(description: "Affiliate Discount Shipping Amount")
+    base_affiliate_discount_shipping_amount: Float @doc(description: "Base Affiliate Discount Shipping Amount")
 }
