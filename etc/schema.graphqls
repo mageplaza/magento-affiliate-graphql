@@ -8,6 +8,22 @@ type Customer {
     Affiliate: AffiliateAction @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Affiliate\\AffiliateAction") @doc(description: "The Affiliate query returns affiliate information") @cache(cacheable: false)
 }
 
+type Mutation {
+    MpAffiliateSignup(input: mpAffiliateSignupInput): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Signup") @doc(description:"Signup to affiliate")
+    MpAffiliateInvite(input: mpAffiliateInviteInput): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Invite") @doc(description:"Invite purchase")
+}
+
+input mpAffiliateSignupInput {
+    email: String
+}
+
+input mpAffiliateInviteInput {
+    contacts: String
+    refer_url: String
+    subject: String
+    content: String
+}
+
 type Config {
     email_notification: Int @doc(description: "Affiliate Subscriptions")
 }
