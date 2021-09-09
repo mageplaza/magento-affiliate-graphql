@@ -12,6 +12,7 @@ type Mutation {
     MpAffiliateSignup(input: mpAffiliateSignupInput): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Signup") @doc(description:"Signup to affiliate")
     MpAffiliateInvite(input: mpAffiliateInviteInput): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Invite") @doc(description:"Invite purchase")
     MpAffiliateCreateReferLink(input: mpAffiliateCreateReferLink): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\CreateReferLink") @doc(description:"Create refer link")
+    MpAffiliateSubscribe(input: mpAffiliateSubscribeInput): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Subscribe") @doc(description:"Affiliate Subscriptions")
 }
 
 input mpAffiliateSignupInput {
@@ -27,6 +28,10 @@ input mpAffiliateInviteInput {
 
 input mpAffiliateCreateReferLink {
     refer_url: String
+}
+
+input mpAffiliateSubscribeInput {
+    is_subscribe: Boolean
 }
 
 type Config {
