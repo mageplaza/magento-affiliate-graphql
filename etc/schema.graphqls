@@ -197,7 +197,7 @@ type TransactionData {
     title: String @doc(description: "Title")
     holding_to: String @doc(description: "Holding To")
     customer_id: Int @doc(description: "Customer Id")
-    action: Int @doc(description: "Action")
+    action: String @doc(description: "Action")
     type: String @doc(description: "Type")
     amount_used: Float @doc(description: "Amount Used")
     current_balance: Float @doc(description: "Current Balance")
