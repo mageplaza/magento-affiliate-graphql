@@ -97,6 +97,8 @@ class Invite extends AbstractAffiliate
 
         $store = $this->data->createObject(\Magento\Store\Model\StoreManagerInterface::class);
 
+        $storeId = $customer->getStoreId();
+
         $content = $this->accountRepository->getEmailContent(
             $content,
             $store->getStore($customer->getStoreId())->getName(),
