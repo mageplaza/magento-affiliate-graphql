@@ -127,8 +127,7 @@ class Invite extends AbstractAffiliate
                     new DataObject(['name' => $name, 'email' => $email, 'refer_url' => $referUrl]),
                     self::XML_PATH_REFER_EMAIL_TEMPLATE,
                     ['message' => $content, 'subject' => $subject],
-                    Data::XML_PATH_EMAIL_SENDER,
-                    $storeId
+                    Data::XML_PATH_EMAIL_SENDER
                 );
                 $successEmails[] = $email;
             } catch (Exception $e) {
