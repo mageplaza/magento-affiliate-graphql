@@ -121,7 +121,7 @@ class Withdraw extends AbstractAffiliate
                     throw new InputException(__('Paypal email required'));
                 }
 
-                if (!filter_var($args['input']['payment_method'], FILTER_VALIDATE_EMAIL)) {
+                if (!filter_var($args['input']['paypal_email'], FILTER_VALIDATE_EMAIL)) {
                     throw new InputException(__('Invalid paypal email address.'));
                 }
             }
