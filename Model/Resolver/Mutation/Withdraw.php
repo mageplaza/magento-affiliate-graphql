@@ -117,7 +117,7 @@ class Withdraw extends AbstractAffiliate
             }
 
             if ($paymentMethod == 'paypal') {
-                if (isset($args['input']['paypal_email'])) {
+                if (!isset($args['input']['paypal_email'])) {
                     throw new InputException(__('Paypal email required'));
                 }
 
