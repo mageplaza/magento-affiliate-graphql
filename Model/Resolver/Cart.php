@@ -81,8 +81,8 @@ class Cart implements ResolverInterface
 
         return [
             'affiliate_key' => $quote->getAffiliateKey(),
-            'affiliate_discount' => $quote->getAffiliateDiscountAmount(),
-            'base_affiliate_discount' => $quote->getBaseAffiliateDiscountAmount(),
+            'affiliate_discount_amount' => $quote->getAffiliateDiscountAmount(),
+            'base_affiliate_discount_amount' => $quote->getBaseAffiliateDiscountAmount(),
             'affiliate_commission' => $quote->getAffiliateCommission(),
             'affiliate_shipping_commission' => $quote->getAffiliateShippingCommission(),
             'affiliate_discount_shipping_amount' => $quote->getAffiliateDiscountShippingAmount(),
