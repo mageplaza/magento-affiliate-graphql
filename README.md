@@ -6,7 +6,7 @@ Magento 2 Affiliate GraphQL is a part of Affiliate extension that add GraphQL fe
 Run the following command in Magento 2 root folder:
 
 ```
-composer require mageplaza/module-customer-attributes-graphql
+composer require mageplaza/module-affiliate-graphql
 php bin/magento setup:upgrade
 php bin/magento setup:static-content:deploy
 ```
