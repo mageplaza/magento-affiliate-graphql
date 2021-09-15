@@ -25,6 +25,7 @@ namespace Mageplaza\AffiliateGraphQl\Model\Resolver\Affiliate;
 use Magento\CustomerGraphQl\Model\Customer\GetCustomer;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
+use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
@@ -80,7 +81,7 @@ class Account implements ResolverInterface
         $account = $this->accountAPIFactory->create()->load($customer->getId(), 'customer_id');
 
         if (!$account->getId()) {
-            throw new NoSuchEntityException(__('Requested entity doesn\'t exist'));
+            throw new GraphQlNoSuchEntityException(__('Requested entity doesn\'t exist'));
         }
 
         return $account;

@@ -24,6 +24,7 @@ namespace Mageplaza\AffiliateGraphQl\Model\Resolver\Affiliate;
 
 use Magento\CustomerGraphQl\Model\Customer\GetCustomer;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\GraphQl\Model\Query\ContextInterface;
@@ -108,7 +109,7 @@ class Banners extends AbstractAffiliate
         $affiliate = $this->accountAPIFactory->create()->load($customer->getId(), 'customer_id');
 
         if (!$affiliate->getId()) {
-            throw new NoSuchEntityException(__('Requested entity doesn\'t exist'));
+            throw new GraphQlNoSuchEntityException(__('Requested entity doesn\'t exist'));
         }
 
         $searchCriteria = $this->searchCriteriaBuilder->build('mp_affiliate_banner', $args);
