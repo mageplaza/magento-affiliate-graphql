@@ -5,7 +5,7 @@ type Query {
 }
 
 type Customer {
-    Affiliate: AffiliateAction @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Affiliate\\AffiliateAction") @doc(description: "The Affiliate query returns affiliate information") @cache(cacheable: false)
+    affiliate: AffiliateAction @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Affiliate\\AffiliateAction") @doc(description: "The Affiliate query returns affiliate information") @cache(cacheable: false)
 }
 
 type Mutation {
