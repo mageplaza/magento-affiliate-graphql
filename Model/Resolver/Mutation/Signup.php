@@ -74,8 +74,8 @@ class Signup extends AbstractAffiliate
             $data['parent'] = $parent->getId();
             $data['parent_email'] = $parent->getCustomer()->getEmail();
         }
-        $data['status'] = $signUpConfig['admin_approved'] ? Status::NEED_APPROVED : Status::ACTIVE;
         $data['email_notification'] = $signUpConfig['default_email_notification'];
+        $data['status'] = $signUpConfig['admin_approved'] ? Status::NEED_APPROVED : Status::ACTIVE;
 
         try {
             $affiliate->addData($data)->save();
