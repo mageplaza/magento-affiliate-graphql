@@ -49,15 +49,7 @@ class Subscribe extends AbstractAffiliate
             throw new GraphQlAuthorizationException(__('The Affiliate is disabled.'));
         }
 
-        $isSubscribe = "";
-
-        if (isset($args['input']['is_subscribe'])) {
-            $isSubscribe = $args['input']['is_subscribe'];
-        }
-
-        if (is_null($isSubscribe)) {
-            throw new GraphQlInputException(__('The is_subscribe is required'));
-        }
+        $isSubscribe = $args['input']['is_subscribe'];
 
         $customer = $this->getCustomer->execute($context);
         $affiliate = $this->data->getAffiliateAccount($customer->getId(), 'customer_id');

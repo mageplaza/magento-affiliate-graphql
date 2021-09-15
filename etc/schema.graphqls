@@ -10,10 +10,10 @@ type Customer {
 
 type Mutation {
     MpAffiliateSignup(input: mpAffiliateSignupInput): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Signup") @doc(description:"Signup to affiliate")
-    MpAffiliateInvite(input: mpAffiliateInviteInput): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Invite") @doc(description:"Invite purchase")
-    MpAffiliateCreateReferLink(input: mpAffiliateCreateReferLink): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\CreateReferLink") @doc(description:"Create refer link")
-    MpAffiliateSubscribe(input: mpAffiliateSubscribeInput): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Subscribe") @doc(description:"Affiliate Subscriptions")
-    MpAffiliateWithdraw(input: mpAffiliateWithdrawInput): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Withdraw") @doc(description:"Affiliate Subscriptions")
+    MpAffiliateInvite(input: mpAffiliateInviteInput!): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Invite") @doc(description:"Invite purchase")
+    MpAffiliateCreateReferLink(input: mpAffiliateCreateReferLink!): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\CreateReferLink") @doc(description:"Create refer link")
+    MpAffiliateSubscribe(input: mpAffiliateSubscribeInput!): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Subscribe") @doc(description:"Affiliate Subscriptions")
+    MpAffiliateWithdraw(input: mpAffiliateWithdrawInput!): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Withdraw") @doc(description:"Affiliate Subscriptions")
 }
 
 input mpAffiliateSignupInput {
@@ -21,24 +21,24 @@ input mpAffiliateSignupInput {
 }
 
 input mpAffiliateInviteInput {
-    contacts: String
+    contacts: String!
     refer_url: String
     subject: String
     content: String
 }
 
 input mpAffiliateCreateReferLink {
-    refer_url: String
+    refer_url: String!
 }
 
 input mpAffiliateSubscribeInput {
-    is_subscribe: Boolean
+    is_subscribe: Boolean!
 }
 
 input mpAffiliateWithdrawInput {
-    amount: Float
+    amount: Float!
     withdraw_description: String
-    payment_method: String
+    payment_method: String!
     offline_address: String
     paypal_email: String
     banktranfer: String

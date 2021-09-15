@@ -96,13 +96,6 @@ class Withdraw extends AbstractAffiliate
             throw new GraphQlAuthorizationException(__('The Affiliate is disabled.'));
         }
 
-        if (!isset($args['input']['amount'])) {
-            throw new InputException(__('Amount required'));
-        }
-        if (!isset($args['input']['payment_method'])) {
-            throw new InputException(__('Payment method required'));
-        }
-
         $paymentMethod = $args['input']['payment_method'];
         $amount = $args['input']['amount'];
 

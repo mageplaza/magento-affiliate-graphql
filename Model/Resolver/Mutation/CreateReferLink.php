@@ -48,15 +48,7 @@ class CreateReferLink extends AbstractAffiliate
             throw new GraphQlAuthorizationException(__('The Affiliate is disabled.'));
         }
 
-        $url = "";
-
-        if (isset($args['input']['refer_url'])) {
-            $url = $args['input']['refer_url'];
-        }
-
-        if (!$url) {
-            throw new GraphQlInputException(__('The refer url is required'));
-        }
+        $url = $args['input']['refer_url'];
 
         $customer = $this->getCustomer->execute($context);
         $affiliate = $this->data->getAffiliateAccount($customer->getId(), 'customer_id');

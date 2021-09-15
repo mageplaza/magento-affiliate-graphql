@@ -53,25 +53,15 @@ class Invite extends AbstractAffiliate
             throw new GraphQlAuthorizationException(__('The Affiliate is disabled.'));
         }
 
-        $contacts = "";
+
+        $contacts = $args['input']['contacts'];
+        $subject = $args['input']['subject'] ?? $this->data->getDefaultEmailSubject();
+
         $referUrl = "";
-        $subject = "";
         $content = "";
-
-        if (isset($args['input']['contacts'])) {
-            $contacts = $args['input']['contacts'];
-        }
-
-        if (!$contacts) {
-            throw new GraphQlInputException(__('The contacts is required'));
-        }
 
         if (isset($args['input']['refer_url'])) {
             $referUrl = $args['input']['refer_url'];
-        }
-
-        if (isset($args['input']['subject'])) {
-            $subject = $args['input']['subject'];
         }
 
         if (isset($args['input']['content'])) {
@@ -97,8 +87,6 @@ class Invite extends AbstractAffiliate
 
         $store = $this->data->createObject(\Magento\Store\Model\StoreManagerInterface::class);
 
-        $storeId = $customer->getStoreId();
-
         $content = $this->accountRepository->getEmailContent(
             $content,
             $store->getStore($customer->getStoreId())->getName(),
@@ -108,12 +96,12 @@ class Invite extends AbstractAffiliate
         $successEmails = $errorEmails = [];
 
         foreach ($contacts as $key => $email) {
-            if (strpos($email, '<') !== false) {
-                $name = substr($email, 0, strpos($email, '<'));
-                $email = substr($email, strpos($email, '<') + 1);
-            } else {
+            if (strpos($email, '<') === false) {
                 $emailIdentify = explode('@', $email);
                 $name = $emailIdentify[0];
+            } else {
+                $name = substr($email, 0, strpos($email, '<'));
+                $email = substr($email, strpos($email, '<') + 1);
             }
 
             $name = trim($name, '\'"');
