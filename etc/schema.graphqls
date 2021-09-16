@@ -56,7 +56,70 @@ input mpAffiliateApplyInput {
 }
 
 type Config {
-    email_notification: Int @doc(description: "Affiliate Subscriptions")
+    general: GeneralConfig @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Config\\GeneralConfig") @doc(description: "Affiliate General Config")
+    account: AccountConfig @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Config\\AccountConfig") @doc(description: "Affiliate Account Config")
+    commission: CommissionConfig @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Config\\CommissionConfig") @doc(description: "Affiliate Commission Config")
+    withdraw: WithdrawConfig @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Config\\WithdrawConfig") @doc(description: "Affiliate Withdraw Config")
+    refer: ReferConfig @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Config\\ReferConfig") @doc(description: "Affiliate Refer Config")
+}
+
+type ReferConfig {
+    enable: Boolean @doc(description: "Enable")
+    account_sharing: String @doc(description: "Account Sharing")
+    default_link: String @doc(description: "Default Link")
+    sharing_content: SharingContent
+}
+
+type SharingContent {
+    subject: String @doc(description: "Subject")
+    email_content: String @doc(description: "Email Config")
+}
+
+type GeneralConfig {
+    enabled: Boolean @doc(description: "Enabled")
+    enable_banner: Boolean @doc(description: "Enabled Banner")
+    expired_time: Int @doc(description: "Expired Time")
+    overwrite_cookies: Boolean @doc(description: "Overwrite Cookies")
+    use_code_as_coupon: Boolean @doc(description: "Use Code As Coupon")
+    show_link: String @doc(description: "Show Link")
+    page_welcome: String @doc(description: "Page Welcome")
+    url_type: String @doc(description: "Url Type")
+    url_prefix: String @doc(description: "Url Prefix")
+    url_param: String @doc(description: "Url Param")
+    url_code_length: String @doc(description: "Url Code Length")
+}
+
+type AccountConfig {
+    sign_up_default_group: Int @doc(description: "Sign Up Default Group")
+    sign_up_admin_approved: Int @doc(description: "Sign Up Admin Approved")
+    sign_up_default_email_notification: Int @doc(description: "Sign Up Default Email Notification")
+    term_conditions_enable: Boolean @doc(description: "Term & Conditions Enabled")
+    term_conditions_checkbox_text: String @doc(description: "Term & Conditions Checkbox Text")
+    term_conditions_title: String @doc(description: "Term & Conditions Title")
+    term_conditions_html: String @doc(description: "Term & Conditions Html")
+    term_conditions_default_checkbox: Boolean @doc(description: "Term & Conditions Default Checkbox")
+    balance_limit: Float @doc(description: "Balance Limit")
+    balance_negative: Boolean @doc(description: "Balance Negative")
+}
+
+type WithdrawConfig {
+    allow_request: Boolean @doc(description: "Allow Request")
+    payment_method: String @doc(description: "Payment Method")
+    minimum_balance: Float @doc(description: "Minimum Balance")
+    minimum: Float @doc(description: "Minimum")
+    maximum: Float @doc(description: "Maximum")
+}
+
+type CommissionConfig {
+    by_tax: Boolean @doc(description: "Received Commission By Tax")
+    shipping: Boolean @doc(description: "Received Commission By Shipping")
+    process: CommissionProcess @doc(description: "Return Commission Process Config")
+}
+
+type CommissionProcess {
+    earn_commission_invoice: Boolean @doc(description: "Earn Commission After Invoice")
+    holding_days: Boolean @doc(description: "Holding Days")
+    refund: Boolean @doc(description: "Refund")
 }
 
 type SignupInformation {

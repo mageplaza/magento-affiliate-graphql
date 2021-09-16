@@ -20,23 +20,38 @@
  */
 declare(strict_types=1);
 
-namespace Mageplaza\AffiliateGraphQl\Model\Resolver;
+namespace Mageplaza\AffiliateGraphQl\Model\Resolver\Config;
 
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
+use Mageplaza\Affiliate\Model\ConfigRepository;
 
 /**
- * Class Config
- * @package Mageplaza\AffiliateGraphQl\Model\Resolver
+ * Class ReferConfig
+ * @package Mageplaza\AffiliateGraphQl\Model\Resolver\Config
  */
-class Config implements ResolverInterface
+class ReferConfig implements ResolverInterface
 {
+    /**
+     * @var ConfigRepository
+     */
+    private $config;
+
+    /**
+     * @param ConfigRepository $config
+     */
+    public function __construct(
+        ConfigRepository $config
+    ) {
+        $this->config = $config;
+    }
+
     /**
      * @inheritdoc
      */
     public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
     {
-        return [];
+        return $this->config->getReferConfig();
     }
 }
