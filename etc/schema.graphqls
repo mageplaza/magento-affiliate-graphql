@@ -13,7 +13,9 @@ type Mutation {
     MpAffiliateInvite(input: mpAffiliateInviteInput!): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Invite") @doc(description:"Invite purchase")
     MpAffiliateCreateReferLink(input: mpAffiliateCreateReferLink!): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\CreateReferLink") @doc(description:"Create refer link")
     MpAffiliateSubscribe(input: mpAffiliateSubscribeInput!): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Subscribe") @doc(description:"Affiliate Subscriptions")
-    MpAffiliateWithdraw(input: mpAffiliateWithdrawInput!): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Withdraw") @doc(description:"Affiliate Subscriptions")
+    MpAffiliateWithdraw(input: mpAffiliateWithdrawInput!): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\Withdraw") @doc(description:"Affiliate Withdraw")
+    MpAffiliateCreateCoupon(input: mpAffiliateCreateCouponInput!): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\CreateCoupon") @doc(description:"Affiliate Create Coupon")
+    MpAffiliateApplyCoupon(input: mpAffiliateApplyInput!): String @resolver(class: "Mageplaza\\AffiliateGraphQl\\Model\\Resolver\\Mutation\\ApplyCoupon") @doc(description:"Affiliate Apply Coupon")
 }
 
 input mpAffiliateSignupInput {
@@ -42,6 +44,15 @@ input mpAffiliateWithdrawInput {
     offline_address: String
     paypal_email: String
     banktranfer: String
+}
+
+input mpAffiliateCreateCouponInput {
+    coupon_prefix: String!
+}
+
+input mpAffiliateApplyInput {
+    cart_id: String!
+    coupon: String!
 }
 
 type Config {

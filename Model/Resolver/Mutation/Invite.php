@@ -24,7 +24,6 @@ namespace Mageplaza\AffiliateGraphQl\Model\Resolver\Mutation;
 
 use Magento\Framework\DataObject;
 use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
-use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\GraphQl\Model\Query\ContextInterface;
