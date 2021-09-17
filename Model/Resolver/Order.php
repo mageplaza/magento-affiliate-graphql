@@ -59,13 +59,12 @@ class Order implements ResolverInterface
      */
     public function __construct(
         GetCustomer $getCustomer,
-        Data        $data,
-        SaleOrder   $order
-    )
-    {
+        Data $data,
+        SaleOrder $order
+    ) {
         $this->getCustomer = $getCustomer;
-        $this->data = $data;
-        $this->order = $order;
+        $this->data        = $data;
+        $this->order       = $order;
     }
 
     /**
@@ -79,19 +78,19 @@ class Order implements ResolverInterface
         $order = $this->order->load($value['id']);
 
         return [
-            'affiliate_key' => $order->getData('affiliate_key'),
-            'affiliate_commission' => $order->getData('affiliate_commission'),
-            'affiliate_discount_amount' => $order->getData('affiliate_discount_amount'),
-            'base_affiliate_discount_amount' => $order->getData('base_affiliate_discount_amount'),
-            'affiliate_shipping_commission' => $order->getData('affiliate_shipping_commission'),
+            'affiliate_key'                           => $order->getData('affiliate_key'),
+            'affiliate_commission'                    => $order->getData('affiliate_commission'),
+            'affiliate_discount_amount'               => $order->getData('affiliate_discount_amount'),
+            'base_affiliate_discount_amount'          => $order->getData('base_affiliate_discount_amount'),
+            'affiliate_shipping_commission'           => $order->getData('affiliate_shipping_commission'),
             'affiliate_earn_commission_invoice_after' => $order->getData('affiliate_earn_commission_invoice_after'),
-            'affiliate_discount_invoiced' => $order->getData('affiliate_discount_invoiced'),
-            'base_affiliate_discount_invoiced' => $order->getData('base_affiliate_discount_invoiced'),
-            'affiliate_discount_refunded' => $order->getData('affiliate_discount_refunded'),
-            'base_affiliate_discount_refunded' => $order->getData('base_affiliate_discount_refunded'),
-            'affiliate_commission_invoiced' => $order->getData('affiliate_commission_invoiced'),
-            'affiliate_commission_refunded' => $order->getData('affiliate_commission_refunded'),
-            'affiliate_discount_shipping_amount' => $order->getData('affiliate_discount_shipping_amount'),
+            'affiliate_discount_invoiced'             => $order->getData('affiliate_discount_invoiced'),
+            'base_affiliate_discount_invoiced'        => $order->getData('base_affiliate_discount_invoiced'),
+            'affiliate_discount_refunded'             => $order->getData('affiliate_discount_refunded'),
+            'base_affiliate_discount_refunded'        => $order->getData('base_affiliate_discount_refunded'),
+            'affiliate_commission_invoiced'           => $order->getData('affiliate_commission_invoiced'),
+            'affiliate_commission_refunded'           => $order->getData('affiliate_commission_refunded'),
+            'affiliate_discount_shipping_amount'      => $order->getData('affiliate_discount_shipping_amount'),
             'base_affiliate_discount_shipping_amount' => $order->getData('base_affiliate_discount_shipping_amount'),
         ];
     }

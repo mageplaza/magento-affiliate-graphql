@@ -50,7 +50,7 @@ class CreateReferLink extends AbstractAffiliate
 
         $url = $args['input']['refer_url'];
 
-        $customer = $this->getCustomer->execute($context);
+        $customer  = $this->getCustomer->execute($context);
         $affiliate = $this->data->getAffiliateAccount($customer->getId(), 'customer_id');
 
         $param = $this->data->getSharingParam() . $affiliate->getId();

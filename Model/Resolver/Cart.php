@@ -27,7 +27,6 @@ use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
-use Magento\GraphQl\Model\Query\ContextInterface;
 use Magento\Quote\Model\Quote;
 use Mageplaza\Affiliate\Helper\Data;
 
@@ -59,13 +58,12 @@ class Cart implements ResolverInterface
      */
     public function __construct(
         GetCustomer $getCustomer,
-        Data        $data,
-        Quote       $quote
-    )
-    {
+        Data $data,
+        Quote $quote
+    ) {
         $this->getCustomer = $getCustomer;
-        $this->data = $data;
-        $this->quote = $quote;
+        $this->data        = $data;
+        $this->quote       = $quote;
     }
 
     /**
@@ -80,12 +78,12 @@ class Cart implements ResolverInterface
         $quote = $this->quote->load($value['model']->getId());
 
         return [
-            'affiliate_key' => $quote->getAffiliateKey(),
-            'affiliate_discount_amount' => $quote->getAffiliateDiscountAmount(),
-            'base_affiliate_discount_amount' => $quote->getBaseAffiliateDiscountAmount(),
-            'affiliate_commission' => $quote->getAffiliateCommission(),
-            'affiliate_shipping_commission' => $quote->getAffiliateShippingCommission(),
-            'affiliate_discount_shipping_amount' => $quote->getAffiliateDiscountShippingAmount(),
+            'affiliate_key'                           => $quote->getAffiliateKey(),
+            'affiliate_discount_amount'               => $quote->getAffiliateDiscountAmount(),
+            'base_affiliate_discount_amount'          => $quote->getBaseAffiliateDiscountAmount(),
+            'affiliate_commission'                    => $quote->getAffiliateCommission(),
+            'affiliate_shipping_commission'           => $quote->getAffiliateShippingCommission(),
+            'affiliate_discount_shipping_amount'      => $quote->getAffiliateDiscountShippingAmount(),
             'base_affiliate_discount_shipping_amount' => $quote->getBaseAffiliateDiscountShippingAmount(),
         ];
     }

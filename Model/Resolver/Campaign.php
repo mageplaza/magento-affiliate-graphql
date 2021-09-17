@@ -58,13 +58,12 @@ class Campaign implements ResolverInterface
      * @param CampaignSearchResult $campaignSearchResult
      */
     public function __construct(
-        GetCustomer          $getCustomer,
-        Data                 $data,
+        GetCustomer $getCustomer,
+        Data $data,
         CampaignSearchResult $campaignSearchResult
-    )
-    {
-        $this->getCustomer = $getCustomer;
-        $this->data = $data;
+    ) {
+        $this->getCustomer          = $getCustomer;
+        $this->data                 = $data;
         $this->campaignSearchResult = $campaignSearchResult;
     }
 
@@ -82,7 +81,7 @@ class Campaign implements ResolverInterface
             throw new GraphQlAuthorizationException(__('The Affiliate is disabled.'));
         }
 
-        $customer = $this->getCustomer->execute($context);
+        $customer  = $this->getCustomer->execute($context);
         $affiliate = $this->data->getAffiliateAccount($customer->getId(), 'customer_id');
 
         /** @var \Mageplaza\Affiliate\Model\ResourceModel\Campaign\Collection $campaign */

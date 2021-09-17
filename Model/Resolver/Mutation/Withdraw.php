@@ -24,11 +24,10 @@ namespace Mageplaza\AffiliateGraphQl\Model\Resolver\Mutation;
 
 use Magento\CustomerGraphQl\Model\Customer\GetCustomer;
 use Magento\Framework\Exception\CouldNotSaveException;
-use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
+use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\UrlInterface;
@@ -64,15 +63,14 @@ class Withdraw extends AbstractAffiliate
      * @param Method $paymentMethod
      */
     public function __construct(
-        GetCustomer                $getCustomer,
-        Data                       $data,
+        GetCustomer $getCustomer,
+        Data $data,
         AccountRepositoryInterface $accountRepository,
-        UrlInterface               $url,
-        WithdrawFactory            $withdraw,
-        Method                     $paymentMethod
-    )
-    {
-        $this->withdraw = $withdraw;
+        UrlInterface $url,
+        WithdrawFactory $withdraw,
+        Method $paymentMethod
+    ) {
+        $this->withdraw      = $withdraw;
         $this->paymentMethod = $paymentMethod;
         parent::__construct(
             $getCustomer,
@@ -97,45 +95,45 @@ class Withdraw extends AbstractAffiliate
         }
 
         $paymentMethod = $args['input']['payment_method'];
-        $amount = $args['input']['amount'];
+        $amount        = $args['input']['amount'];
 
         if ($amount <= 0.001) {
-            throw new InputException(__('Amount must great than zero'));
+            throw new GraphQlInputException(__('Amount must great than zero'));
         }
 
         if ($paymentMethod) {
             $paymentMethods = $this->paymentMethod->getOptionHash();
             if (!isset($paymentMethods[$paymentMethod])) {
-                throw new NoSuchEntityException(__('Payment method doesn\'t exist'));
+                throw new GraphQlNoSuchEntityException(__('Payment method doesn\'t exist'));
             }
 
             if ($paymentMethod == 'paypal') {
                 if (!isset($args['input']['paypal_email'])) {
-                    throw new InputException(__('Paypal email required'));
+                    throw new GraphQlInputException(__('Paypal email required'));
                 }
 
                 if (!filter_var($args['input']['paypal_email'], FILTER_VALIDATE_EMAIL)) {
-                    throw new InputException(__('Invalid paypal email address.'));
+                    throw new GraphQlInputException(__('Invalid paypal email address.'));
                 }
             }
         }
         /** @var \Mageplaza\Affiliate\Model\Account $account */
         $customer = $this->getCustomer->execute($context);
-        $account = $this->data->getAffiliateAccount($customer->getId(), 'customer_id');
+        $account  = $this->data->getAffiliateAccount($customer->getId(), 'customer_id');
 
         if (!$account->getId()) {
-            throw new NoSuchEntityException(__('Affiliate account doesn\'t exist'));
+            throw new GraphQlNoSuchEntityException(__('Affiliate account doesn\'t exist'));
         }
 
         $data = [
-            'customer_id' => $account->getCustomerId(),
-            'account_id' => $account->getId(),
-            'amount' => $amount,
-            'payment_method' => $paymentMethod,
+            'customer_id'          => $account->getCustomerId(),
+            'account_id'           => $account->getId(),
+            'amount'               => $amount,
+            'payment_method'       => $paymentMethod,
             'withdraw_description' => $args['input']['withdraw_description'] ?? "",
-            'offline_address' => $args['input']['offline_address'] ?? "",
-            'banktranfer' => $args['input']['banktranfer'] ?? "",
-            'paypal_email' => $args['input']['paypal_email'] ?? ""
+            'offline_address'      => $args['input']['offline_address'] ?? "",
+            'banktranfer'          => $args['input']['banktranfer'] ?? "",
+            'paypal_email'         => $args['input']['paypal_email'] ?? ""
         ];
 
         $withdraw = $this->withdraw->create();

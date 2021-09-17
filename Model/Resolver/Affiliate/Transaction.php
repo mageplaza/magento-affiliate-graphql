@@ -30,6 +30,7 @@ use Magento\Framework\GraphQl\Query\Resolver\Argument\SearchCriteria\Builder as 
 use Mageplaza\Affiliate\Api\Data\TransactionSearchResultInterfaceFactory as TransactionSearchResult;
 use Mageplaza\AffiliateGraphQl\Model\Resolver\AbstractAffiliate;
 use Mageplaza\Affiliate\Helper\Data;
+use Magento\Directory\Model\Currency;
 
 /**
  * Class Transaction
@@ -58,21 +59,31 @@ class Transaction extends AbstractAffiliate
     private $searchCriteriaBuilder;
 
     /**
+     * @var Currency
+     */
+    protected $currency;
+
+    /**
      * @param GetCustomer $getCustomer
      * @param Data $data
      * @param TransactionSearchResult $transactionFactory
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
-        GetCustomer           $getCustomer,
-        Data                  $data,
+        GetCustomer $getCustomer,
+        Data $data,
         TransactionSearchResult $transactionFactory,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        Currency $currency
     ) {
-        $this->getCustomer = $getCustomer;
-        $this->data = $data;
-        $this->transactionFactory = $transactionFactory;
+        $this->getCustomer           = $getCustomer;
+        $this->data                  = $data;
+        $this->transactionFactory    = $transactionFactory;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+
+        parent::__construct(
+            $currency
+        );
     }
 
     /**
@@ -85,13 +96,34 @@ class Transaction extends AbstractAffiliate
         $context->getExtensionAttributes()->getIsCustomer();
         $customer = $this->getCustomer->execute($context);
 
-        $searchCriteria = $this->searchCriteriaBuilder->build('mp_affiliate_transaction', $args);
+        $searchCriteria        = $this->searchCriteriaBuilder->build('mp_affiliate_transaction', $args);
         $transactionCollection = $this->transactionFactory->create()
             ->addFieldToFilter("customer_id", ["eq" => $customer->getId()]);
 
         $searchCriteria->setCurrentPage($args['currentPage']);
         $searchCriteria->setPageSize($args['pageSize']);
         $searchResult = $this->data->processGetList($searchCriteria, $transactionCollection);
+
+        $store = $context->getExtensionAttributes()->getStore();
+        $this->createAdjustmentsArray($searchResult, $store);
+
         return $this->getResult($searchResult, $args);
+    }
+
+    /**
+     * @param $searchResult
+     * @param $store
+     *
+     * @return $this
+     */
+    public function createAdjustmentsArray(&$searchResult, $store)
+    {
+        foreach ($searchResult->getItems() as &$item) {
+            $item['amount']          = $this->adjustmentsCurrency($item['amount'], $store);
+            $item['amount_used']     = $this->adjustmentsCurrency($item['amount_used'], $store);
+            $item['current_balance'] = $this->adjustmentsCurrency($item['current_balance'], $store);
+        }
+
+        return $this;
     }
 }

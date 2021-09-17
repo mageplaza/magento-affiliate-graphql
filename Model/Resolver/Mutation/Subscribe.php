@@ -25,6 +25,7 @@ namespace Mageplaza\AffiliateGraphQl\Model\Resolver\Mutation;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
+use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\GraphQl\Model\Query\ContextInterface;
@@ -51,7 +52,7 @@ class Subscribe extends AbstractAffiliate
 
         $isSubscribe = $args['input']['is_subscribe'];
 
-        $customer = $this->getCustomer->execute($context);
+        $customer  = $this->getCustomer->execute($context);
         $affiliate = $this->data->getAffiliateAccount($customer->getId(), 'customer_id');
 
         if ($affiliate->getId()) {
@@ -60,7 +61,7 @@ class Subscribe extends AbstractAffiliate
 
             return true;
         } else {
-            throw new NoSuchEntityException(__('Requested entity doesn\'t exist'));
+            throw new GraphQlNoSuchEntityException(__('Requested entity doesn\'t exist'));
         }
     }
 }

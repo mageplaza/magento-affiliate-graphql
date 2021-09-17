@@ -38,6 +38,7 @@ use Exception;
 class Invite extends AbstractAffiliate
 {
     const XML_PATH_REFER_EMAIL_TEMPLATE = 'affiliate/refer/account_sharing';
+
     /**
      * @inheritdoc
      */
@@ -54,10 +55,10 @@ class Invite extends AbstractAffiliate
 
 
         $contacts = $args['input']['contacts'];
-        $subject = $args['input']['subject'] ?? $this->data->getDefaultEmailSubject();
+        $subject  = $args['input']['subject'] ?? $this->data->getDefaultEmailSubject();
 
         $referUrl = "";
-        $content = "";
+        $content  = "";
 
         if (isset($args['input']['refer_url'])) {
             $referUrl = $args['input']['refer_url'];
@@ -69,7 +70,7 @@ class Invite extends AbstractAffiliate
 
         $contacts = explode(",", $contacts);
 
-        $customer = $this->getCustomer->execute($context);
+        $customer  = $this->getCustomer->execute($context);
         $affiliate = $this->data->getAffiliateAccount($customer->getId(), 'customer_id');
 
         if (!$referUrl || is_numeric(strpos($this->url->getBaseUrl(), $referUrl))) {
@@ -97,13 +98,13 @@ class Invite extends AbstractAffiliate
         foreach ($contacts as $key => $email) {
             if (strpos($email, '<') === false) {
                 $emailIdentify = explode('@', $email);
-                $name = $emailIdentify[0];
+                $name          = $emailIdentify[0];
             } else {
-                $name = substr($email, 0, strpos($email, '<'));
+                $name  = substr($email, 0, strpos($email, '<'));
                 $email = substr($email, strpos($email, '<') + 1);
             }
 
-            $name = trim($name, '\'"');
+            $name  = trim($name, '\'"');
             $email = trim(rtrim(trim($email), '>'));
             try {
                 if (!Zend_Validate::is($email, 'EmailAddress')) {
@@ -124,7 +125,7 @@ class Invite extends AbstractAffiliate
 
         return Data::jsonEncode([
             "success" => $successEmails,
-            "fail" => $errorEmails
+            "fail"    => $errorEmails
         ]);
     }
 }

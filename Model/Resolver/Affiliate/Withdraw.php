@@ -30,6 +30,7 @@ use Magento\Framework\GraphQl\Query\Resolver\Argument\SearchCriteria\Builder as 
 use Mageplaza\Affiliate\Api\Data\WithdrawSearchResultInterfaceFactory as WithdrawSearchResult;
 use Mageplaza\AffiliateGraphQl\Model\Resolver\AbstractAffiliate;
 use Mageplaza\Affiliate\Helper\Data;
+use Magento\Directory\Model\Currency;
 
 /**
  * Class Withdraw
@@ -58,6 +59,11 @@ class Withdraw extends AbstractAffiliate
     private $searchCriteriaBuilder;
 
     /**
+     * @var Currency
+     */
+    protected $currency;
+
+    /**
      * @param GetCustomer $getCustomer
      * @param Data $data
      * @param WithdrawSearchResult $withdrawFactory
@@ -67,12 +73,17 @@ class Withdraw extends AbstractAffiliate
         GetCustomer           $getCustomer,
         Data                  $data,
         WithdrawSearchResult $withdrawFactory,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        Currency $currency
     ) {
         $this->getCustomer = $getCustomer;
         $this->data = $data;
         $this->withdrawFactory = $withdrawFactory;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+
+        parent::__construct(
+            $currency
+        );
     }
 
     /**
@@ -92,6 +103,27 @@ class Withdraw extends AbstractAffiliate
         $searchCriteria->setCurrentPage($args['currentPage']);
         $searchCriteria->setPageSize($args['pageSize']);
         $searchResult = $this->data->processGetList($searchCriteria, $withdrawCollection);
+
+        $store = $context->getExtensionAttributes()->getStore();
+        $this->createAdjustmentsArray($searchResult, $store);
+
         return $this->getResult($searchResult, $args);
+    }
+
+    /**
+     * @param $searchResult
+     * @param $store
+     *
+     * @return $this
+     */
+    public function createAdjustmentsArray(&$searchResult, $store)
+    {
+        foreach ($searchResult->getItems() as &$item) {
+            $item['amount'] = $this->adjustmentsCurrency($item['amount'], $store);
+            $item['fee'] = $this->adjustmentsCurrency($item['fee'], $store);
+            $item['transfer_amount'] = $this->adjustmentsCurrency($item['transfer_amount'], $store);
+        }
+
+        return $this;
     }
 }

@@ -63,16 +63,15 @@ abstract class AbstractAffiliate implements ResolverInterface
      * @param UrlInterface $url
      */
     public function __construct(
-        GetCustomer                $getCustomer,
-        Data                       $data,
+        GetCustomer $getCustomer,
+        Data $data,
         AccountRepositoryInterface $accountRepository,
         UrlInterface $url
-    )
-    {
-        $this->getCustomer = $getCustomer;
-        $this->data = $data;
+    ) {
+        $this->getCustomer       = $getCustomer;
+        $this->data              = $data;
         $this->accountRepository = $accountRepository;
-        $this->url = $url;
+        $this->url               = $url;
     }
 
     /**

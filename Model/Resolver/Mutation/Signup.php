@@ -56,26 +56,26 @@ class Signup extends AbstractAffiliate
             $email = $args['input']['email'];
         }
 
-        $customer = $this->getCustomer->execute($context);
+        $customer  = $this->getCustomer->execute($context);
         $affiliate = $this->data->getAffiliateAccount($customer->getId(), 'customer_id');
 
         if ($affiliate->getId() && !$affiliate->isActive()) {
             return Data::jsonEncode(["status" => Status::INACTIVE]);
         }
 
-        $data = [];
+        $data                = [];
         $data['customer_id'] = $context->getUserId();
-        $signUpConfig = $this->data->getAffiliateAccountSignUp();
-        $data['group_id'] = $signUpConfig['default_group'];
+        $signUpConfig        = $this->data->getAffiliateAccountSignUp();
+        $data['group_id']    = $signUpConfig['default_group'];
 
         if ($email) {
             /** @var \Mageplaza\Affiliate\Model\Account $parent */
-            $parent = $this->data->getAffiliateByEmailOrCode(strtolower(trim($email)));
-            $data['parent'] = $parent->getId();
+            $parent               = $this->data->getAffiliateByEmailOrCode(strtolower(trim($email)));
+            $data['parent']       = $parent->getId();
             $data['parent_email'] = $parent->getCustomer()->getEmail();
         }
         $data['email_notification'] = $signUpConfig['default_email_notification'];
-        $data['status'] = $signUpConfig['admin_approved'] ? Status::NEED_APPROVED : Status::ACTIVE;
+        $data['status']             = $signUpConfig['admin_approved'] ? Status::NEED_APPROVED : Status::ACTIVE;
 
         try {
             $affiliate->addData($data)->save();
@@ -84,7 +84,6 @@ class Signup extends AbstractAffiliate
             }
 
             return Data::jsonEncode(["status" => Status::ACTIVE, "affiliate_id" => $affiliate->getId()]);
-
         } catch (Exception $e) {
             return Data::jsonEncode(["message" => $e->getMessage()]);
         }

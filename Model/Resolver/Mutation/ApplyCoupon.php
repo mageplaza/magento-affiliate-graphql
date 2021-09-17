@@ -60,15 +60,14 @@ class ApplyCoupon extends AbstractAffiliate
      * @param GuestCouponManagementInterface $guestCouponManagement
      */
     public function __construct(
-        GetCustomer                    $getCustomer,
-        Data                           $data,
-        AccountRepositoryInterface     $accountRepository,
-        UrlInterface                   $url,
-        CouponManagementInterface      $couponManagement,
+        GetCustomer $getCustomer,
+        Data $data,
+        AccountRepositoryInterface $accountRepository,
+        UrlInterface $url,
+        CouponManagementInterface $couponManagement,
         GuestCouponManagementInterface $guestCouponManagement
-    )
-    {
-        $this->couponManagement = $couponManagement;
+    ) {
+        $this->couponManagement      = $couponManagement;
         $this->guestCouponManagement = $guestCouponManagement;
 
         parent::__construct(
@@ -103,6 +102,7 @@ class ApplyCoupon extends AbstractAffiliate
      * @param $interface
      * @param $cartId
      * @param $coupon
+     *
      * @return bool
      * @throws GraphQlNoSuchEntityException
      */

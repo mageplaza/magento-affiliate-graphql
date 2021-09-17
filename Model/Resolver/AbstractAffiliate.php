@@ -26,6 +26,7 @@ namespace Mageplaza\AffiliateGraphQl\Model\Resolver;
 use Magento\Framework\Api\SearchResultsInterface;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
+use Magento\Directory\Model\Currency;
 
 /**
  * Class AbstractAttributes
@@ -33,6 +34,20 @@ use Magento\Framework\GraphQl\Query\ResolverInterface;
  */
 abstract class AbstractAffiliate implements ResolverInterface
 {
+    /**
+     * @var Currency
+     */
+    protected $currency;
+
+    /**
+     * @param Currency $currency
+     */
+    public function __construct(
+        Currency $currency
+    ) {
+        $this->currency = $currency;
+    }
+
     /**
      * @param array $args
      *
@@ -99,5 +114,40 @@ abstract class AbstractAffiliate implements ResolverInterface
             'startPage'       => 1,
             'endPage'         => $totalPages,
         ];
+    }
+
+    /**
+     * @param $value
+     * @param $store
+     *
+     * @return array
+     */
+    public function adjustmentsCurrency($value, $store)
+    {
+        $baseCurrency    = $this->currency->getConfigBaseCurrencies()[0];
+        $convertCurrency = $store->getCurrentCurrencyCode();
+
+        return [
+            'value'    => $this->convertCurrency($baseCurrency, $convertCurrency, $value),
+            'currency' => $convertCurrency
+        ];
+    }
+
+    /**
+     * @param $from
+     * @param $to
+     * @param $amount
+     *
+     * @return float|int
+     */
+    public function convertCurrency($from, $to, $amount)
+    {
+        if ($from == $to) {
+            return $amount;
+        }
+        $this->currency->load($from);
+        $rate = $this->currency->getAnyRate($to);
+
+        return $rate * $amount;
     }
 }

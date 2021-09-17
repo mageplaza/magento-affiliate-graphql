@@ -30,6 +30,7 @@ use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\GraphQl\Model\Query\ContextInterface;
 use Mageplaza\Affiliate\Model\Api\AccountFactory as AccountAPIFactory;
 use Mageplaza\Affiliate\Helper\Data;
+use Magento\Directory\Model\Currency;
 
 /**
  * Class Account
@@ -53,18 +54,25 @@ class Account implements ResolverInterface
     private $accountAPIFactory;
 
     /**
+     * @var Currency
+     */
+    private $currency;
+
+    /**
      * @param GetCustomer $getCustomer
      * @param Data $data
      * @param AccountAPIFactory $accountAPIFactory
      */
     public function __construct(
-        GetCustomer       $getCustomer,
-        Data              $data,
-        AccountAPIFactory $accountAPIFactory
+        GetCustomer $getCustomer,
+        Data $data,
+        AccountAPIFactory $accountAPIFactory,
+        Currency $currency
     ) {
-        $this->getCustomer = $getCustomer;
-        $this->data = $data;
+        $this->getCustomer       = $getCustomer;
+        $this->data              = $data;
         $this->accountAPIFactory = $accountAPIFactory;
+        $this->currency          = $currency;
     }
 
     /**
@@ -82,6 +90,60 @@ class Account implements ResolverInterface
             throw new GraphQlNoSuchEntityException(__('Requested entity doesn\'t exist'));
         }
 
+        $store = $context->getExtensionAttributes()->getStore();
+        $this->changePriceData($account, $store);
+
         return $account;
+    }
+
+    /**
+     * @param $account
+     * @param $store
+     */
+    public function changePriceData(&$account, $store)
+    {
+        $data = [
+            'balance'          => $this->adjustmentsCurrency($account->getBalance(), $store),
+            'holding_balance'  => $this->adjustmentsCurrency($account->getHoldingBalance(), $store),
+            'total_commission' => $this->adjustmentsCurrency($account->getTotalCommission(), $store),
+            'total_paid'       => $this->adjustmentsCurrency($account->getTotalPaid(), $store),
+        ];
+
+        $account->addData($data);
+    }
+
+    /**
+     * @param $value
+     * @param $store
+     *
+     * @return array
+     */
+    public function adjustmentsCurrency($value, $store)
+    {
+        $baseCurrency    = $this->currency->getConfigBaseCurrencies()[0];
+        $convertCurrency = $store->getCurrentCurrencyCode();
+
+        return [
+            'value'    => $this->convertCurrency($baseCurrency, $convertCurrency, $value),
+            'currency' => $convertCurrency
+        ];
+    }
+
+    /**
+     * @param $from
+     * @param $to
+     * @param $amount
+     *
+     * @return float|int
+     */
+    public function convertCurrency($from, $to, $amount)
+    {
+        if ($from == $to) {
+            return $amount;
+        }
+        $this->currency->load($from);
+        $rate = $this->currency->getAnyRate($to);
+
+        return $rate * $amount;
     }
 }
