@@ -70,15 +70,15 @@ class Withdraw extends AbstractAffiliate
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
-        GetCustomer           $getCustomer,
-        Data                  $data,
+        GetCustomer $getCustomer,
+        Data $data,
         WithdrawSearchResult $withdrawFactory,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         Currency $currency
     ) {
-        $this->getCustomer = $getCustomer;
-        $this->data = $data;
-        $this->withdrawFactory = $withdrawFactory;
+        $this->getCustomer           = $getCustomer;
+        $this->data                  = $data;
+        $this->withdrawFactory       = $withdrawFactory;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
 
         parent::__construct(
@@ -96,7 +96,7 @@ class Withdraw extends AbstractAffiliate
         $context->getExtensionAttributes()->getIsCustomer();
         $customer = $this->getCustomer->execute($context);
 
-        $searchCriteria = $this->searchCriteriaBuilder->build('mp_affiliate_withdraw', $args);
+        $searchCriteria     = $this->searchCriteriaBuilder->build('mp_affiliate_withdraw', $args);
         $withdrawCollection = $this->withdrawFactory->create()
             ->addFieldToFilter("customer_id", ["eq" => $customer->getId()]);
 
@@ -119,8 +119,8 @@ class Withdraw extends AbstractAffiliate
     public function createAdjustmentsArray(&$searchResult, $store)
     {
         foreach ($searchResult->getItems() as &$item) {
-            $item['amount'] = $this->adjustmentsCurrency($item['amount'], $store);
-            $item['fee'] = $this->adjustmentsCurrency($item['fee'], $store);
+            $item['amount']          = $this->adjustmentsCurrency($item['amount'], $store);
+            $item['fee']             = $this->adjustmentsCurrency($item['fee'], $store);
             $item['transfer_amount'] = $this->adjustmentsCurrency($item['transfer_amount'], $store);
         }
 

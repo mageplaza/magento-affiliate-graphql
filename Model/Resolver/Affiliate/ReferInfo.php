@@ -59,12 +59,12 @@ class ReferInfo implements ResolverInterface
      * @param AccountAPIFactory $accountAPIFactory
      */
     public function __construct(
-        GetCustomer       $getCustomer,
-        Data              $data,
+        GetCustomer $getCustomer,
+        Data $data,
         AccountAPIFactory $accountAPIFactory
     ) {
-        $this->getCustomer = $getCustomer;
-        $this->data = $data;
+        $this->getCustomer       = $getCustomer;
+        $this->data              = $data;
         $this->accountAPIFactory = $accountAPIFactory;
     }
 
@@ -84,14 +84,15 @@ class ReferInfo implements ResolverInterface
         }
 
         return [
-            'refer_url' => $this->getReferUrl($account),
-            'refer_code' => $account->getCode(),
+            'refer_url'   => $this->getReferUrl($account),
+            'refer_code'  => $account->getCode(),
             'refer_email' => $customer->getEmail()
         ];
     }
 
     /**
      * @param $account
+     *
      * @return string
      */
     public function getReferUrl($account)
@@ -99,9 +100,9 @@ class ReferInfo implements ResolverInterface
         $urlParam = $this->data->getGeneralUrlParam();
 
         if ($urlParam === Urlparam::PARAM_ID) {
-            return $this->data->getSharingUrl().$account->getId();
+            return $this->data->getSharingUrl() . $account->getId();
         }
 
-        return $this->data->getSharingUrl().$account->getCode();
+        return $this->data->getSharingUrl() . $account->getCode();
     }
 }

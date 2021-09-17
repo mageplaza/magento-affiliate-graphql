@@ -88,19 +88,19 @@ class Banners extends AbstractAffiliate
      * @param Campaign $campaign
      */
     public function __construct(
-        GetCustomer           $getCustomer,
-        Data                  $data,
-        BannerSearchResult    $bannerFactory,
+        GetCustomer $getCustomer,
+        Data $data,
+        BannerSearchResult $bannerFactory,
         SearchCriteriaBuilder $searchCriteriaBuilder,
-        AccountAPIFactory     $accountAPIFactory,
-        Campaign              $campaign
+        AccountAPIFactory $accountAPIFactory,
+        Campaign $campaign
     ) {
-        $this->getCustomer = $getCustomer;
-        $this->data = $data;
-        $this->bannerFactory = $bannerFactory;
+        $this->getCustomer           = $getCustomer;
+        $this->data                  = $data;
+        $this->bannerFactory         = $bannerFactory;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->accountAPIFactory = $accountAPIFactory;
-        $this->campaign = $campaign;
+        $this->accountAPIFactory     = $accountAPIFactory;
+        $this->campaign              = $campaign;
     }
 
     /**
@@ -119,7 +119,7 @@ class Banners extends AbstractAffiliate
             throw new GraphQlNoSuchEntityException(__('Requested entity doesn\'t exist'));
         }
 
-        $searchCriteria = $this->searchCriteriaBuilder->build('mp_affiliate_banner', $args);
+        $searchCriteria   = $this->searchCriteriaBuilder->build('mp_affiliate_banner', $args);
         $bannerCollection = $this->bannerFactory->create();
 
         $searchCriteria->setCurrentPage($args['currentPage']);
@@ -150,7 +150,7 @@ class Banners extends AbstractAffiliate
     {
         $items = [];
         foreach ($searchResult->getItems() as $item) {
-            $link = $item->getLink();
+            $link  = $item->getLink();
             $param = $this->data->getSharingParam() . $this->affiliate->getId();
             $item->setLink($link . $param);
 

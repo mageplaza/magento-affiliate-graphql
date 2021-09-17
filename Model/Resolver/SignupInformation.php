@@ -58,9 +58,9 @@ class SignupInformation implements ResolverInterface
         }
 
         return [
-            'title' => $this->data->getTermsAndConditionsTitle(),
-            'cms_block' => $this->data->loadCmsBlock($this->data->getTermsAndConditionsHtml()),
-            'is_checked' => $this->data->isCheckedEmailNotification(),
+            'title'         => $this->data->getTermsAndConditionsTitle(),
+            'cms_block'     => $this->data->loadCmsBlock($this->data->getTermsAndConditionsHtml()),
+            'is_checked'    => $this->data->isCheckedEmailNotification(),
             'checkbox_text' => $this->data->getTermsAndConditionsCheckboxText()
         ];
     }

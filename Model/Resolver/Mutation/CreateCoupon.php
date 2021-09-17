@@ -53,8 +53,7 @@ class CreateCoupon extends AbstractAffiliate
         if (strlen($couponPrefix) < 6) {
             throw new GraphQlInputException(__('Please try with another coupon prefix.'));
         } else {
-            $affiliateAccount = $this->data->getAffiliateAccount($couponPrefix, 'code');
-
+            $affiliateAccount   = $this->data->getAffiliateAccount($couponPrefix, 'code');
             $affiliateAccountId = $affiliateAccount->getId();
 
             $currentAffiliate   = $this->data->getAffiliateAccount(
