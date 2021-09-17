@@ -27,7 +27,6 @@ use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
-use Magento\GraphQl\Model\Query\ContextInterface;
 use Magento\Sales\Model\Order as SaleOrder;
 use Mageplaza\Affiliate\Helper\Data;
 

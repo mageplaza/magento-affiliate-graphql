@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace Mageplaza\AffiliateGraphQl\Model\Resolver\Affiliate;
 
 use Magento\CustomerGraphQl\Model\Customer\GetCustomer;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
@@ -59,12 +58,12 @@ class AffiliateAction implements ResolverInterface
      * @param AccountAPIFactory $accountAPIFactory
      */
     public function __construct(
-        GetCustomer       $getCustomer,
-        Data              $data,
+        GetCustomer $getCustomer,
+        Data $data,
         AccountAPIFactory $accountAPIFactory
     ) {
-        $this->getCustomer = $getCustomer;
-        $this->data = $data;
+        $this->getCustomer       = $getCustomer;
+        $this->data              = $data;
         $this->accountAPIFactory = $accountAPIFactory;
     }
 

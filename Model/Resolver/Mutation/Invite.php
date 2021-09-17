@@ -22,11 +22,15 @@ declare(strict_types=1);
 
 namespace Mageplaza\AffiliateGraphQl\Model\Resolver\Mutation;
 
+use Magento\CustomerGraphQl\Model\Customer\GetCustomer;
 use Magento\Framework\DataObject;
 use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
+use Magento\Framework\UrlInterface;
 use Magento\GraphQl\Model\Query\ContextInterface;
+use Magento\Store\Model\StoreManagerInterface;
+use Mageplaza\Affiliate\Api\AccountRepositoryInterface;
 use Mageplaza\Affiliate\Helper\Data;
 use Zend_Validate;
 use Exception;
@@ -38,6 +42,34 @@ use Exception;
 class Invite extends AbstractAffiliate
 {
     const XML_PATH_REFER_EMAIL_TEMPLATE = 'affiliate/refer/account_sharing';
+
+    /**
+     * @var StoreManagerInterface
+     */
+    private $storeManage;
+
+    /**
+     * @param GetCustomer $getCustomer
+     * @param Data $data
+     * @param AccountRepositoryInterface $accountRepository
+     * @param UrlInterface $url
+     * @param StoreManagerInterface $storeManage
+     */
+    public function __construct(
+        GetCustomer $getCustomer,
+        Data $data,
+        AccountRepositoryInterface $accountRepository,
+        UrlInterface $url,
+        StoreManagerInterface $storeManage
+    ) {
+        $this->storeManage = $storeManage;
+        parent::__construct(
+            $getCustomer,
+            $data,
+            $accountRepository,
+            $url
+        );
+    }
 
     /**
      * @inheritdoc
@@ -72,11 +104,11 @@ class Invite extends AbstractAffiliate
         $customer  = $this->getCustomer->execute($context);
         $affiliate = $this->data->getAffiliateAccount($customer->getId(), 'customer_id');
 
-        if (!$referUrl || is_numeric(strpos($this->url->getBaseUrl(), $referUrl))) {
+        if (!$referUrl || strpos($this->url->getBaseUrl(), $referUrl) === false) {
             $referUrl = $this->data->getSharingUrl() . $affiliate->getId();
         }
 
-        if (!strpos($referUrl, $this->data->getSharingParam())) {
+        if (strpos($referUrl, $this->data->getSharingParam()) === false) {
             $referUrl = $referUrl . $this->data->getSharingParam() . $affiliate->getId();
         }
 
@@ -84,17 +116,15 @@ class Invite extends AbstractAffiliate
             $subject = $this->data->getDefaultEmailSubject();
         }
 
-        $store = $this->data->createObject(\Magento\Store\Model\StoreManagerInterface::class);
-
         $content = $this->accountRepository->getEmailContent(
             $content,
-            $store->getStore($customer->getStoreId())->getName(),
+            $this->storeManage->getStore($customer->getStoreId())->getName(),
             $referUrl
         );
 
         $successEmails = $errorEmails = [];
 
-        foreach ($contacts as $key => $email) {
+        foreach ($contacts as $email) {
             if (strpos($email, '<') === false) {
                 $emailIdentify = explode('@', $email);
                 $name          = $emailIdentify[0];
