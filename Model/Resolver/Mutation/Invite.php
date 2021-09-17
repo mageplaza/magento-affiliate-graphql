@@ -53,7 +53,6 @@ class Invite extends AbstractAffiliate
             throw new GraphQlAuthorizationException(__('The Affiliate is disabled.'));
         }
 
-
         $contacts = $args['input']['contacts'];
         $subject  = $args['input']['subject'] ?? $this->data->getDefaultEmailSubject();
 
