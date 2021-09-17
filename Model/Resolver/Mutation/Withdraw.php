@@ -33,6 +33,7 @@ use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\UrlInterface;
 use Magento\GraphQl\Model\Query\ContextInterface;
 use Mageplaza\Affiliate\Api\AccountRepositoryInterface;
+use Mageplaza\Affiliate\Model\Account as AffiliateAccount;
 use Mageplaza\Affiliate\Helper\Data;
 use Mageplaza\Affiliate\Model\WithdrawFactory;
 use Mageplaza\Affiliate\Model\Withdraw\Method;
@@ -117,7 +118,7 @@ class Withdraw extends AbstractAffiliate
                 }
             }
         }
-        /** @var \Mageplaza\Affiliate\Model\Account $account */
+        /** @var AffiliateAccount $account */
         $customer = $this->getCustomer->execute($context);
         $account  = $this->data->getAffiliateAccount($customer->getId(), 'customer_id');
 

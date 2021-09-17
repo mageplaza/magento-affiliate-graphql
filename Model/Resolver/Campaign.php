@@ -29,6 +29,7 @@ use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\GraphQl\Model\Query\ContextInterface;
 use Mageplaza\Affiliate\Api\Data\CampaignSearchResultInterfaceFactory as CampaignSearchResult;
+use Mageplaza\Affiliate\Model\ResourceModel\Campaign\Collection as CampaignCollection;
 use Mageplaza\Affiliate\Helper\Data;
 
 /**
@@ -84,7 +85,7 @@ class Campaign implements ResolverInterface
         $customer  = $this->getCustomer->execute($context);
         $affiliate = $this->data->getAffiliateAccount($customer->getId(), 'customer_id');
 
-        /** @var \Mageplaza\Affiliate\Model\ResourceModel\Campaign\Collection $campaign */
+        /** @var CampaignCollection $campaign */
         $campaign = $this->campaignSearchResult->create();
         $campaign->addFieldToFilter("affiliate_group_ids", ["finset" => [$affiliate->getGroupId()]]);
 

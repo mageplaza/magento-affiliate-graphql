@@ -26,6 +26,7 @@ use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\GraphQl\Model\Query\ContextInterface;
+use Mageplaza\Affiliate\Model\Account as AffiliateAccount;
 use Mageplaza\Affiliate\Helper\Data;
 use Mageplaza\Affiliate\Model\Account\Status;
 use Exception;
@@ -69,7 +70,7 @@ class Signup extends AbstractAffiliate
         $data['group_id']    = $signUpConfig['default_group'];
 
         if ($email) {
-            /** @var \Mageplaza\Affiliate\Model\Account $parent */
+            /** @var AffiliateAccount $parent */
             $parent               = $this->data->getAffiliateByEmailOrCode(strtolower(trim($email)));
             $data['parent']       = $parent->getId();
             $data['parent_email'] = $parent->getCustomer()->getEmail();
