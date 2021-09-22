@@ -118,7 +118,7 @@ type CommissionConfig {
 
 type CommissionProcess {
     earn_commission_invoice: Boolean @doc(description: "Earn Commission After Invoice")
-    holding_days: Boolean @doc(description: "Holding Days")
+    holding_days: Int @doc(description: "Holding Days")
     refund: Boolean @doc(description: "Refund")
 }
 
